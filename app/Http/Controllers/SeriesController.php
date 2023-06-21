@@ -11,7 +11,10 @@ class SeriesController extends Controller
     public function index()
     {
         $series = Serie::query()->orderBy('nome')->get();
-        return view('series.index')->with('series', $series);
+        $mensagemSucesso = session('mensagem.sucesso');
+
+
+        return view('series.index')->with('series', $series)->with('mensagemSucesso',$mensagemSucesso);
     }
 
 
@@ -22,14 +25,21 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
-        $nomeSerie = $request ->input('nome');
+        $serie = Serie::create($request->all()); // preenche todos os campos com a informação request, exeto o token, devido a prpriedade fillable no model
 
-        $serie = new Serie();
-        $serie -> nome = $nomeSerie;
-        $serie -> save();
-
-        return redirect('/series');
+        return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' adicionada com sucesso");
 
     }
+
+    public function destroy(Serie $serie)
+    {
+
+        $serie->delete();
+
+
+        return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' removida com sucesso");
+    }
+
+
 
 }
