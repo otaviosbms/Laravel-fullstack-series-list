@@ -41,17 +41,18 @@ class SeriesController extends Controller
             ->with('mensagem.sucesso',"Série '{$serie->nome}' removida com sucesso");
     }
 
-    public function edit(int $id)
+    public function edit(Serie $series)
     {
-        $series = Serie::findOrFail($id);
+
         return view('series.edit')->with('serie', $series);
 
     }
 
-    public function update(int $id, Request $request)
+    public function update(Serie $series, Request $request)
     {
-        $series = Serie::findOrFail($id);
-        $series->nome = $request->nome;
+
+
+        $series->fill($request->all());
         $series->save();
 
         return to_route('series.index')
