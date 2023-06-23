@@ -25,20 +25,26 @@ class SeriesController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'nome'=>['required', 'min:3']
+        ]);
+        
         $serie = Serie::create($request->all()); // preenche todos os campos com a informação request, exeto o token, devido a prpriedade fillable no model
 
         return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' adicionada com sucesso");
 
     }
 
-    public function destroy(Serie $serie)
+    public function destroy(Request $request, Serie $serie)
     {
 
         $serie->delete();
 
+        Serie::destroy($request->series);
 
         return to_route('series.index')
             ->with('mensagem.sucesso',"Série '{$serie->nome}' removida com sucesso");
+
     }
 
     public function edit(Serie $series)
