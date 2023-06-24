@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeriesFormRequest;
 use App\Models\Serie;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,11 +24,8 @@ class SeriesController extends Controller
         return view('series.create');
     }
 
-    public function store(Request $request)
+    public function store(SeriesFormRequest $request)
     {
-        $request->validate([
-            'nome'=>['required', 'min:3']
-        ]);
         
         $serie = Serie::create($request->all()); // preenche todos os campos com a informação request, exeto o token, devido a prpriedade fillable no model
 
@@ -54,7 +52,7 @@ class SeriesController extends Controller
 
     }
 
-    public function update(Serie $series, Request $request)
+    public function update(Serie $series, SeriesFormRequest $request)
     {
 
 
