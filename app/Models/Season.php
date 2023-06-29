@@ -12,7 +12,7 @@ class Season extends Model
 
     public function series()
     {
-        return $this->guessBelongsTo(Serie::class);
+        return $this->guessBelongsTo(Series::class);
     }
 
     public function episodes()
