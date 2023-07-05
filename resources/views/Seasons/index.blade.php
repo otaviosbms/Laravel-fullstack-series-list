@@ -1,4 +1,4 @@
-<x-layout title="Temporadas">
+<x-layout title="Temporadas de {!! $series->nome !!}">
 
 
     <ul class="list-group">
