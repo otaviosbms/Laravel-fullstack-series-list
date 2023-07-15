@@ -22,7 +22,6 @@ Route::get('/', function () {
 
 
 
-
 Route::resource('/series', SeriesController::class)
     ->except(['show']);
     
