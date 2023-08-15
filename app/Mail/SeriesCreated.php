@@ -34,7 +34,7 @@ class SeriesCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Series Created',
+            subject: "Serie Criada",
         );
     }
 
@@ -44,7 +44,6 @@ class SeriesCreated extends Mailable
     public function content(): Content
     {
 
-        
         return new Content(
             markdown: 'mail.series-created',
 
