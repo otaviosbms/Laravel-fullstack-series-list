@@ -7,6 +7,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Requests\SeriesFormRequest;
 use App\Mail\SeriesCreated;
 use App\Models\Series;
+use App\Models\User;
 use App\Repositories\SeriesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,15 +46,23 @@ class SeriesController extends Controller
 
         $serie = $this->repository->add($request);
 
-        $email = new SeriesCreated(
-            $serie->nome,
-            $serie->id,
-            $request->seasonsQty,
-            $request->episodesPerSeason
-        );
+        $userList = User::all();
 
-        Mail::to(Auth::user())->send($email);
+        foreach ($userList as $user){
 
+            $email = new SeriesCreated(
+                $serie->nome,
+                $serie->id,
+                $request->seasonsQty,
+                $request->episodesPerSeason
+            );
+    
+            Mail::to($user)->queue($email); // queue enfilera os emaails para que todos eles sejam mandados após o termino da requisição 
+
+            sleep(2); // adiciona um delay na execução do loop
+        }
+
+        
         return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' adicionada com sucesso");
 
     }
