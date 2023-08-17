@@ -59,7 +59,7 @@ class SeriesController extends Controller
     
             Mail::to($user)->queue($email); // queue enfilera os emaails para que todos eles sejam mandados após o termino da requisição 
 
-            sleep(2); // adiciona um delay na execução do loop
+            // sleep(2); // adiciona um delay na execução do loop
         }
 
         
