@@ -48,7 +48,7 @@ class SeriesController extends Controller
 
         $userList = User::all();
 
-        foreach ($userList as $user){
+        foreach ($userList as $index => $user){
 
             $email = new SeriesCreated(
                 $serie->nome,
@@ -56,8 +56,12 @@ class SeriesController extends Controller
                 $request->seasonsQty,
                 $request->episodesPerSeason
             );
+
+            $when = now()->addSeconds($index * 5); //adiciona 5 segundos a mais na hora atual para o envio de emails.
     
-            Mail::to($user)->queue($email); // queue enfilera os emaails para que todos eles sejam mandados após o termino da requisição 
+            // alterações feitas para se adequear ao processamento de emails do Mailtrap.
+
+            Mail::to($user)->later($when, $email); // queue enfilera os emaails para que todos eles sejam mandados após o termino da requisição 
 
             // sleep(2); // adiciona um delay na execução do loop
         }
