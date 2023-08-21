@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SeriesCreated as EventsSeriesCreated;
 use App\Http\Middleware\Autenticador;
 use App\Http\Middleware\Authenticate;
 use App\Http\Requests\SeriesFormRequest;
@@ -45,6 +46,8 @@ class SeriesController extends Controller
     {
 
         $serie = $this->repository->add($request);
+
+        EventsSeriesCreated::dispatch();
 
         return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' adicionada com sucesso");
 

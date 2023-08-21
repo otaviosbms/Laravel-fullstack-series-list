@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Listeners;
+
+
+use App\Events\SeriesCreated as SeriesCreatedEvent;
 use App\Mail\SeriesCreated;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
@@ -18,7 +21,7 @@ class EmailUsersAboutSeriesCreated
     /**
      * Handle the event.
      */
-    public function handle(object $event): void
+    public function handle(SeriesCreatedEvent $event): void
     {
         $userList = User::all();
 
