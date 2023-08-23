@@ -47,7 +47,13 @@ class SeriesController extends Controller
 
         $serie = $this->repository->add($request);
 
-        EventsSeriesCreated::dispatch();
+        $seriesCreatesEvent = new SeriesCreated(
+            $serie->nome,
+            $serie->id,
+            $request->seasonsQty,
+            $request->episodesPerSeason,
+        );
+        event($seriesCreatesEvent);
 
         return to_route('series.index')->with('mensagem.sucesso',"Série '{$serie->nome}' adicionada com sucesso");
 
