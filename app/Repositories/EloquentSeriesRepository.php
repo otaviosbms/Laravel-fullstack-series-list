@@ -15,7 +15,11 @@ class EloquentSeriesRepository implements SeriesRepository
     {
         return DB::Transaction(function() use ($request) {
 
-            $serie = Series::create($request->all()); // preenche todos os campos com a informação request, exeto o token, devido a prpriedade fillable no model
+            $serie = Series::create([
+                'nome' => $request->nome,
+                'cover' => $request->coverPath,
+            ]);
+             // preenche todos os campos com a informação request, exeto o token, devido a prpriedade fillable no model
             $seasons = [];
             for($i = 1; $i <= $request->seasonsQty; $i++){
                 $seasons[] = [
